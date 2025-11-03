@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mesa de Póker - Cambio de Cartas</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Fondo: mesa de póker -->
+      <a-sky src="https://cdn.pixabay.com/photo/2017/08/07/22/49/poker-2607139_1280.jpg"></a-sky>
+
+      <!-- Carta mostrada -->
+      <a-plane id="card"
+               position="0 1.5 -3"
+               width="1.5" height="2"
+               src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Playing_card_spade_A.svg"
+               shadow></a-plane>
+
+      <!-- Texto asociado a la carta -->
+      <a-text id="cardText"
+              value="As de picas: carta alta."
+              position="0 0.7 -3"
+              align="center"
+              color="#FFF"
+              width="3"></a-text>
+
+      <!-- Botón 3D para cambiar carta -->
+      <a-box id="button"
+             position="0 0 -3"
+             depth="0.2" height="0.5" width="1.5"
+             color="#e63946"
+             event-set__enter="_event: mouseenter; color: #f77f00"
+             event-set__leave="_event: mouseleave; color: #e63946"
+             shadow>
+        <a-text value="Cambiar Carta" align="center" position="0 0 0.3" color="#FFF"></a-text>
+      </a-box>
+
+      <!-- Cámara y cursor (para usar ratón o VR) -->
+      <a-entity camera look-controls>
+        <a-entity cursor="fuse: false; rayOrigin: mouse"
+                  position="0 0 -1"
+                  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                  material="color: white; shader: flat"></a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      const images = [
+        {
+          src: 'Apicas.png',
+          text: 'As de picas: carta alta.'
+        },
+        {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Playing_card_heart_K.svg',
+          text: 'Rey de corazones: carta poderosa.'
+        },
+        {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_club_Q.svg',
+          text: 'Reina de tréboles: inteligencia y astucia.'
+        },
+        {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/d/d2/Playing_card_diamond_J.svg',
+          text: 'Jota de diamantes: juventud y energía.'
+        }
+      ];
+
+      let current = 0;
+      const card = document.querySelector('#card');
+      const text = document.querySelector('#cardText');
+      const button = document.querySelector('#button');
+
+      button.addEventListener('click', () => {
+        current = (current + 1) % images.length;
+        card.setAttribute('src', images[current].src);
+        text.setAttribute('value', images[current].text);
+      });
+    </script>
+  </body>
+</html>
