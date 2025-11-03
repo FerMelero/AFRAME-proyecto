@@ -2,41 +2,63 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Mesa de Póker - Cambio de Cartas</title>
+    <title>Lenguaje de Cartas - Diccionario Visual</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <!-- Fondo: mesa de póker -->
-      <a-sky src="https://cdn.pixabay.com/photo/2017/08/07/22/49/poker-2607139_1280.jpg"></a-sky>
+      <!-- Precarga de imagen local -->
+      <a-assets>
+        <img id="apicas" src="Apicas.png">
+        <img id="reina_negra" src="reinanegra.png">
+        <img id="reina_roja" src="reina_roja.png">
+        <img id="rey" src="rey.png">
+      </a-assets>
 
-      <!-- Carta mostrada -->
+      <!-- Fondo oscuro -->
+      <a-sky color="#1a1a1a"></a-sky>
+
+
+      <!-- Carta mostrada con imagen precargada -->
       <a-plane id="card"
-               position="0 1.5 -3"
-               width="1.5" height="2"
-               src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Playing_card_spade_A.svg"
+               position="0 2 -3.01"
+               width="1.7" height="2.4"
+               src="#apicas"
                shadow></a-plane>
 
-      <!-- Texto asociado a la carta -->
+      <!-- Texto explicativo -->
       <a-text id="cardText"
-              value="As de picas: carta alta."
-              position="0 0.7 -3"
+              value="A♠: Marca el comienzo y fin del programa."
+              position="0 0.6 -3"
               align="center"
-              color="#FFF"
-              width="3"></a-text>
+              color="#f0f0f0"
+              width="4.5"
+              font="mozillavr"></a-text>
 
-      <!-- Botón 3D para cambiar carta -->
+      <!-- Botón para cambiar carta -->
       <a-box id="button"
-             position="0 0 -3"
-             depth="0.2" height="0.5" width="1.5"
-             color="#e63946"
-             event-set__enter="_event: mouseenter; color: #f77f00"
-             event-set__leave="_event: mouseleave; color: #e63946"
+             position="0 -0.5 -3"
+             depth="0.2" height="0.6" width="2.2"
+             color="#d62828"
              shadow>
-        <a-text value="Cambiar Carta" align="center" position="0 0 0.3" color="#FFF"></a-text>
+        <a-text value="Siguiente Carta"
+                align="center"
+                position="0 0 0.3"
+                color="#ffffff"
+                width="2"
+                font="mozillavr"></a-text>
       </a-box>
 
-      <!-- Cámara y cursor (para usar ratón o VR) -->
+      <!-- Precarga de imágenes -->
+      <a-assets>
+        <img id="apicas" src="Apicas.png">
+        <img id="fondo" src="poker-and-casino-playing-card-black-background-vector.jpg">
+      </a-assets>
+
+      <!-- Fondo con imagen personalizada -->
+      <a-sky src="#fondo"></a-sky>
+
+      <!-- Cámara y cursor -->
       <a-entity camera look-controls>
         <a-entity cursor="fuse: false; rayOrigin: mouse"
                   position="0 0 -1"
@@ -46,23 +68,24 @@
     </a-scene>
 
     <script>
-      const images = [
+      const cartas = [
         {
-          src: 'Apicas.png',
-          text: 'As de picas: carta alta.'
+          src: '#apicas',
+          text: 'A♠: Marca el comienzo y fin del programa.'
         },
         {
-          src: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Playing_card_heart_K.svg',
-          text: 'Rey de corazones: carta poderosa.'
+          src: '#reina_negra',
+          text: 'Q: Condicional if. Ejecuta instrucciones si la condición es verdadera.'
         },
         {
-          src: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_club_Q.svg',
-          text: 'Reina de tréboles: inteligencia y astucia.'
+          src: '#reina_roja',
+          text: 'Q♥: Condicional else. Ejecuta instrucciones si la condición es falsa.'
         },
         {
-          src: 'https://upload.wikimedia.org/wikipedia/commons/d/d2/Playing_card_diamond_J.svg',
-          text: 'Jota de diamantes: juventud y energía.'
+          src: '#rey',
+          text: 'K♥: Representan bucles.'
         }
+        // Puedes seguir añadiendo más cartas aquí
       ];
 
       let current = 0;
@@ -71,9 +94,22 @@
       const button = document.querySelector('#button');
 
       button.addEventListener('click', () => {
-        current = (current + 1) % images.length;
-        card.setAttribute('src', images[current].src);
-        text.setAttribute('value', images[current].text);
+        current = (current + 1) % cartas.length;
+        card.setAttribute('src', cartas[current].src);
+        text.setAttribute('value', cartas[current].text);
+
+        card.setAttribute('animation__rotate', {
+          property: 'rotation',
+          to: '0 360 0',
+          dur: 500,
+          easing: 'easeOutQuad',
+          loop: false
+        });
+
+        setTimeout(() => {
+          card.setAttribute('rotation', '0 0 0');
+          card.removeAttribute('animation__rotate');
+        }, 600);
       });
     </script>
   </body>
