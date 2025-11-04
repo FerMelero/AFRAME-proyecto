@@ -27,7 +27,7 @@ También cuenta con un botón para alternar entre los distintos palos.
 
 ### 3. Mesa de póker
 Ubicada a 90° de los paneles principales.  
-Consiste en una **mesa verde** con **ocho montones de fichas de colores** y algunas fichas sueltas distribuidas sobre la superficie, simulando una escena de juego realista.
+Consiste en una **mesa verde** con **ocho montones de fichas de colores** y algunas fichas sueltas distribuidas.
 
 ## Tecnologías utilizadas
 - **A-Frame 1.5.0**
