@@ -7,56 +7,102 @@
   </head>
   <body>
     <a-scene>
-      <!-- Precarga de imagen local -->
+      <!-- Precarga de imágenes -->
       <a-assets>
         <img id="apicas" src="Apicas.png">
         <img id="reina_negra" src="reinanegra.png">
         <img id="reina_roja" src="reina_roja.png">
         <img id="rey" src="rey.png">
-      </a-assets>
 
-      <!-- Fondo oscuro -->
-      <a-sky color="#1a1a1a"></a-sky>
+        <img id="trebol" src="trebol.png">
+        <img id="pica" src="pica.png">
+        <img id="corazon" src="corazones.png">
+        <img id="diamante" src="diamantes.png">
 
-
-      <!-- Carta mostrada con imagen precargada -->
-      <a-plane id="card"
-               position="0 2 -3.01"
-               width="1.7" height="2.4"
-               src="#apicas"
-               shadow></a-plane>
-
-      <!-- Texto explicativo -->
-      <a-text id="cardText"
-              value="A♠: Marca el comienzo y fin del programa."
-              position="0 0.6 -3"
-              align="center"
-              color="#f0f0f0"
-              width="4.5"
-              font="mozillavr"></a-text>
-
-      <!-- Botón para cambiar carta -->
-      <a-box id="button"
-             position="0 -0.5 -3"
-             depth="0.2" height="0.6" width="2.2"
-             color="#d62828"
-             shadow>
-        <a-text value="Siguiente Carta"
-                align="center"
-                position="0 0 0.3"
-                color="#ffffff"
-                width="2"
-                font="mozillavr"></a-text>
-      </a-box>
-
-      <!-- Precarga de imágenes -->
-      <a-assets>
-        <img id="apicas" src="Apicas.png">
         <img id="fondo" src="poker-and-casino-playing-card-black-background-vector.jpg">
       </a-assets>
 
-      <!-- Fondo con imagen personalizada -->
+      <!-- Fondo -->
       <a-sky src="#fondo"></a-sky>
+
+      <!-- Panel delantero (cartas lógicas) -->
+      <a-entity position="0 0 0">
+        <a-plane id="card"
+                 position="0 2 -3"
+                 width="1.7" height="2.4"
+                 src="#apicas"
+                 shadow></a-plane>
+
+        <a-text id="cardText"
+                value="A♠: Marca el comienzo y fin del programa."
+                position="0 0.6 -3"
+                align="center"
+                color="#f0f0f0"
+                width="4.5"
+                font="mozillavr"></a-text>
+
+        <a-box id="button"
+               position="0 -0.5 -3"
+               depth="0.2" height="0.6" width="2.2"
+               color="#d62828"
+               shadow>
+          <a-text value="Siguiente Carta"
+                  align="center"
+                  position="0 0 0.3"
+                  color="#ffffff"
+                  width="2"
+                  font="mozillavr"></a-text>
+        </a-box>
+      </a-entity>
+
+      <!-- Panel trasero (palos clásicos) -->
+      <a-entity position="0 0 0" rotation="0 180 0">
+        <a-plane id="cardPalo"
+                 position="0 2 -3"
+                 width="1.7" height="2.4"
+                 src="#trebol"
+                 shadow></a-plane>
+
+        <a-text id="cardTextPalo"
+                value="Representa variables."
+                position="0 0.6 -3"
+                align="center"
+                color="#f0f0f0"
+                width="4.5"
+                font="mozillavr"></a-text>
+
+        <a-box id="buttonPalos"
+               position="0 -0.5 -3"
+               depth="0.2" height="0.6" width="2.2"
+               color="#2a9d8f"
+               shadow>
+          <a-text value="Siguiente Palo"
+                  align="center"
+                  position="0 0 0.3"
+                  color="#ffffff"
+                  width="2"
+                  font="mozillavr"></a-text>
+        </a-box>
+      </a-entity>
+
+      <!-- 🎲 Mesa de póker con fichas (ajustada, vista lateral 90°) -->
+      <a-entity position="0 -1.5 0" rotation="0 90 0">
+        <!-- Mesa -->
+        <a-cylinder position="0 0.35 -3" radius="2" height="0.15" color="#3b2f2f" shadow="receive: true"></a-cylinder>
+
+        <!-- Fichas apiladas -->
+        <a-cylinder position="0.5 0.45 -3" radius="0.1" height="0.05" color="#d62828"></a-cylinder>
+        <a-cylinder position="0.5 0.51 -3" radius="0.1" height="0.05" color="#f77f00"></a-cylinder>
+        <a-cylinder position="0.5 0.57 -3" radius="0.1" height="0.05" color="#2a9d8f"></a-cylinder>
+
+        <!-- Título encima de la mesa -->
+        <a-text value="Mesa de Póker"
+                position="0 1 -3"
+                align="center"
+                color="#FFD700"
+                width="4"
+                font="mozillavr"></a-text>
+      </a-entity>
 
       <!-- Cámara y cursor -->
       <a-entity camera look-controls>
@@ -68,49 +114,63 @@
     </a-scene>
 
     <script>
+      // --- CARTAS PRINCIPALES ---
       const cartas = [
-        {
-          src: '#apicas',
-          text: 'A♠: Marca el comienzo y fin del programa.'
-        },
-        {
-          src: '#reina_negra',
-          text: 'Q: Condicional if. Ejecuta instrucciones si la condición es verdadera.'
-        },
-        {
-          src: '#reina_roja',
-          text: 'Q♥: Condicional else. Ejecuta instrucciones si la condición es falsa.'
-        },
-        {
-          src: '#rey',
-          text: 'K♥: Representan bucles.'
-        }
-        // Puedes seguir añadiendo más cartas aquí
+        { src: '#apicas', text: 'A♠: Marca el comienzo y fin del programa.' },
+        { src: '#reina_negra', text: 'Q♠: Condicional if. Ejecuta si la condición es verdadera.' },
+        { src: '#reina_roja', text: 'Q♥: Condicional else. Ejecuta si la condición es falsa.' },
+        { src: '#rey', text: 'K♥: Representa bucles o iteraciones.' }
       ];
 
-      let current = 0;
+      // --- PALOS ---
+      const palos = [
+        { src: '#trebol', text: 'Representa variables.' },
+        { src: '#pica', text: 'Representa elementos comparadores.' },
+        { src: '#corazon', text: 'Representa valores literales.' },
+        { src: '#diamante', text: 'Representa la aritmética.' }
+      ];
+
+      let currentCarta = 0;
+      let currentPalo = 0;
+
       const card = document.querySelector('#card');
       const text = document.querySelector('#cardText');
       const button = document.querySelector('#button');
 
-      button.addEventListener('click', () => {
-        current = (current + 1) % cartas.length;
-        card.setAttribute('src', cartas[current].src);
-        text.setAttribute('value', cartas[current].text);
+      const cardPalo = document.querySelector('#cardPalo');
+      const textPalo = document.querySelector('#cardTextPalo');
+      const buttonPalos = document.querySelector('#buttonPalos');
 
-        card.setAttribute('animation__rotate', {
+      // --- Botón de cartas ---
+      button.addEventListener('click', () => {
+        currentCarta = (currentCarta + 1) % cartas.length;
+        card.setAttribute('src', cartas[currentCarta].src);
+        text.setAttribute('value', cartas[currentCarta].text);
+        animateCard(card);
+      });
+
+      // --- Botón de palos ---
+      buttonPalos.addEventListener('click', () => {
+        currentPalo = (currentPalo + 1) % palos.length;
+        cardPalo.setAttribute('src', palos[currentPalo].src);
+        textPalo.setAttribute('value', palos[currentPalo].text);
+        animateCard(cardPalo);
+      });
+
+      // --- Animación de giro ---
+      function animateCard(element) {
+        element.setAttribute('animation__rotate', {
           property: 'rotation',
           to: '0 360 0',
           dur: 500,
           easing: 'easeOutQuad',
           loop: false
         });
-
         setTimeout(() => {
-          card.setAttribute('rotation', '0 0 0');
-          card.removeAttribute('animation__rotate');
+          element.setAttribute('rotation', '0 0 0');
+          element.removeAttribute('animation__rotate');
         }, 600);
-      });
+      }
     </script>
   </body>
 </html>
